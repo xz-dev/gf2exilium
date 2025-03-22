@@ -274,6 +274,10 @@ if __name__ == '__main__':
         {% else %}
             <p>还没有保存的账号</p>
         {% endif %}
+        
+        <div style="margin-top: 40px; text-align: center; font-size: 14px; color: #666;">
+            <p>开源地址: <a href="https://github.com/xz-dev/gf2exilium" target="_blank">https://github.com/xz-dev/gf2exilium</a></p>
+        </div>
     </div>
 </body>
 </html>''')
