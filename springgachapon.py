@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 
 async def run(playwright, account, password):
     # 创建浏览器上下文并预先授予权限
-    browser = await playwright.chromium.launch(headless=True)  # 无头模式
+    browser = await playwright.chromium.launch(headless=False)  # 无头模式
     context = await browser.new_context(
         permissions=['clipboard-read', 'clipboard-write']  # 预先授予剪贴板权限
     )
@@ -23,7 +23,7 @@ async def run(playwright, account, password):
     await page.click('div.login_btn img')
     
     # 等待页面跳转到游戏主界面
-    await page.wait_for_load_state(timeout=10*1000)
+    await page.wait_for_load_state(timeout=60*1000)
     
     # 进入任务菜单
     await page.click('div.game-main-bottom div.game-log img[src*="game-get.png"]')
@@ -96,6 +96,7 @@ async def run(playwright, account, password):
         else:
             print("未找到剩余次数显示")
             break
+        break
     
     print("抽卡完成")
     print("任务成功全部完成")
