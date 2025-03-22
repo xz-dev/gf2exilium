@@ -221,7 +221,7 @@ if __name__ == '__main__':
 </head>
 <body>
     <div class="container">
-        <h1>GF2 Exilium 账号管理</h1>
+        <h1>GF2 Exilium Spring Gachapon 自动化工具</h1>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
