@@ -14,7 +14,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # 只复制Python脚本和requirements.txt
-COPY *.py /app/
 COPY requirements.txt /app/
 
 # 安装Python依赖
@@ -24,6 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN playwright install chromium
 RUN playwright install-deps chromium
 
+COPY *.py /app/
 # 设置环境变量
 ENV PYTHONUNBUFFERED=1
 ENV TZ=Asia/Shanghai

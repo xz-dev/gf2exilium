@@ -85,11 +85,10 @@ async def run(playwright, account, password):
                 print("点击抽卡按钮")
                 
                 # 等待动画完成
-                await asyncio.sleep(3)
+                await asyncio.sleep(10)
                 
                 # 点击任意位置关闭抽卡结果
-                await page.mouse.click(400, 400)
-                await asyncio.sleep(1)
+                await page.reload()
             else:
                 print("未找到抽卡按钮")
                 break
