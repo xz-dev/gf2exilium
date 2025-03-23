@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 
 async def run(playwright, account, password):
     # 创建浏览器上下文并预先授予权限
-    browser = await playwright.chromium.launch(headless=False)  # 无头模式
+    browser = await playwright.chromium.launch(headless=True)  # 无头模式
     context = await browser.new_context(
         permissions=['clipboard-read', 'clipboard-write']  # 预先授予剪贴板权限
     )
