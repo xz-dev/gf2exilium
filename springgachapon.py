@@ -12,22 +12,26 @@ async def run(playwright, account, password):
     page = await context.new_page()
 
     # 进入指定网页，不等待页面完全加载
-    await page.goto(
-        "https://gf2exilium.sunborngame.com/springgachapon/main?loginShow=true",
-        wait_until="domcontentloaded",
-    )
+    retry = 3
+    while retry > 0:
+        try:
+            await page.goto(
+                "https://gf2exilium.sunborngame.com/springgachapon/main?loginShow=true",
+                wait_until="domcontentloaded",
+            )
 
-    # 输入账号
-    await page.fill('input[placeholder="Enter Sunborn Account"]', account)
-
-    # 输入密码
-    await page.fill('input[placeholder="Enter Password"]', password)
-
-    # 点击登录按钮
-    await page.click("div.login_btn img")
-
-    # 等待页面跳转到游戏主界面
-    await page.wait_for_load_state(timeout=60 * 1000)
+            # 输入账号
+            await page.fill('input[placeholder="Enter Sunborn Account"]', account)
+            # 输入密码
+            await page.fill('input[placeholder="Enter Password"]', password)
+            # 点击登录按钮
+            await page.click("div.login_btn img")
+            # 等待页面跳转到游戏主界面
+            await page.wait_for_load_state(timeout=60 * 1000)
+            break
+        except Exception as e:
+            print(f"登录时出错: {e}")
+            retry -= 1
 
     # 进入任务菜单
     await page.click('div.game-main-bottom div.game-log img[src*="game-get.png"]')
@@ -53,11 +57,14 @@ async def run(playwright, account, password):
         # 点击屏幕中间任意位置
         await asyncio.sleep(3)
         await page.mouse.click(500, 500)
+        await asyncio.sleep(2)
+        await page.mouse.click(500, 500)
         print("任务完成")
         # 尝试获取粘贴板里的链接
         print("尝试获取粘贴板里的链接")
         try:
-            clipboard_text = await page.evaluate("""
+            clipboard_text = await page.evaluate(
+                """
                 async () => {
                     try {
                         return await navigator.clipboard.readText() || '';
@@ -66,8 +73,9 @@ async def run(playwright, account, password):
                         return '';
                     }
                 }
-            """)
-            
+            """
+            )
+
             if clipboard_text:
                 # 打开一个新页面作为辅助页面
                 helper_page = await context.new_page()
@@ -83,8 +91,6 @@ async def run(playwright, account, password):
                 print("粘贴板为空，没有获取到分享链接")
         except Exception as e:
             print(f"获取粘贴板内容时出错: {e}")
-        else:
-            print("未找到分享链接")
 
     # 刷新页面
     await page.reload()
