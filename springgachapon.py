@@ -54,11 +54,6 @@ async def run(playwright, account, password):
         # 点击任务右边的按钮去完成任务
         task_button = await task.query_selector("div.task-go-btn")
         await task_button.click()
-        # 点击屏幕中间任意位置
-        await asyncio.sleep(3)
-        await page.mouse.click(500, 500)
-        await asyncio.sleep(2)
-        await page.mouse.click(500, 500)
         print("任务完成")
         # 尝试获取粘贴板里的链接
         print("尝试获取粘贴板里的链接")
@@ -81,7 +76,7 @@ async def run(playwright, account, password):
                 helper_page = await context.new_page()
                 # 主页面失去焦点
                 await helper_page.bring_to_front()
-                await asyncio.sleep(0.5)
+                await asyncio.sleep(2)
                 # 主页面重新获得焦点
                 await page.bring_to_front()
                 # 关闭辅助页面
@@ -91,6 +86,12 @@ async def run(playwright, account, password):
                 print("粘贴板为空，没有获取到分享链接")
         except Exception as e:
             print(f"获取粘贴板内容时出错: {e}")
+        # 点击屏幕中间任意位置
+        await asyncio.sleep(3)
+        await page.mouse.click(500, 500)
+        await task_button.click()
+        await asyncio.sleep(2)
+        await page.mouse.click(500, 500)
 
     # 刷新页面
     await page.reload()
