@@ -119,7 +119,7 @@ def scheduler_thread():
         run_play_all(first_run=True)
     
     # 计算下次运行的时间
-    interval_seconds = 4 * 60 * 60  # 3小时
+    interval_seconds = 2 * 60 * 60  # 2小时
     
     while not stop_event.is_set():
         # 等待指定时间或直到收到停止信号
